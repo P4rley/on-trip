@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import styled, { keyframes } from "styled-components";
-import background from "../public/background.jpg";
+import styled from "styled-components";
 import { FaSearchLocation, FaCalendarAlt, FaChevronDown } from "react-icons/fa";
 import { IoMdPeople } from "react-icons/io";
 import { ChangeEvent, useState } from "react";
