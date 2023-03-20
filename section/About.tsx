@@ -2,8 +2,11 @@
 
 import styled from "styled-components";
 import Image from "next/image";
+import { FunctionComponent } from "react";
 
-const About = () => {
+export interface IAbout {}
+
+const About: FunctionComponent<IAbout> = () => {
   return (
     <Container>
       <Heading>

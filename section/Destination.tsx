@@ -1,24 +1,28 @@
 "use client";
+import { FunctionComponent } from "react";
 import styled from "styled-components";
 import DestinationCard from "../components/DestinationCard";
 
 const data = [
   {
-    city: "Cappadocia",
+    province: "Bali",
+    destination: "Cappadocia",
     description:
       "Cappadocia is famous for its stretches of soft volcanic rock formed by erosion from volcanoes over millions of years. The rock takes on a variety of unique shapes such as towers, cones, valleys and caves.",
     imgUrl: "https://i.postimg.cc/76V3qsSf/cappadocia.jpg",
     reverse: false,
   },
   {
-    city: "Lake Toba",
+    province: "Sumatera Utara",
+    destination: "Lake Toba",
     description:
-      "Toba is a place to  sit and take in the view of the picturesque mountains set against the cool clear lake, you will feel the worries of the world melt away. As the lake sits 900 meters above sea level, therefore the climate here is cooler which gives a well-needed break from the heat, humidity, and pollution of the city.",
+      "Toba is a place to  sit and take in the view of the picturesque mountains set against the cool clear lake, you will feel the worries of the world melt away. As the lake sits 900 meters above sea level, therefore the climate here is cooler which gives a well-needed break from the heat, humidity, and pollution of the destination.",
     imgUrl: "https://i.postimg.cc/V6j7nWn8/lake-toba.jpg",
     reverse: true,
   },
   {
-    city: "Cape Town Central",
+    province: "Jakarta",
+    destination: "Cape Town Central",
     description:
       "Tourist brochure-views at Blaauwberg Beach and Kirstenbosch National Botanical Gardens are within easy driving distance of 'The Mother City.' The Cape of Good Hope Nature Reserve provides sweeping sea vistas, hiking trails and wildlife encounters.",
     imgUrl: "https://i.postimg.cc/q7KQHxm3/cape-town.jpg",
@@ -26,7 +30,9 @@ const data = [
   },
 ];
 
-const Destination = () => {
+export interface IDestinationSection {}
+
+const Destination: FunctionComponent<IDestinationSection> = () => {
   return (
     <Container>
       <Circle>
@@ -47,8 +53,9 @@ const Destination = () => {
           return (
             <div key={i}>
               <DestinationCard
-                city={el.city}
+                province={el.province}
                 description={el.description}
+                destination={el.destination}
                 imgUrl={el.imgUrl}
                 reverse={el.reverse}
               />

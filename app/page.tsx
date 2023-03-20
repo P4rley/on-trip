@@ -1,6 +1,6 @@
 import About from "../section/About";
 import Banner from "../section/Banner";
-import CountryDesctination from "../section/CountryDesctination";
+import CountryDestination from "../section/CountryDestination";
 import Destination from "../section/Destination";
 import Hero from "../section/Hero";
 
@@ -11,7 +11,7 @@ const page = () => {
       <Hero />
       <About />
       <Destination />
-      <CountryDesctination />
+      <CountryDestination />
       <Banner />
     </div>
   );

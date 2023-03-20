@@ -1,15 +1,16 @@
 "use client";
 import Image, { StaticImageData } from "next/image";
+import { FunctionComponent } from "react";
 import styled from "styled-components";
+import { IDestinationData } from "../section/DestinationSearch";
 
-type Props = {
-  city: string;
-  description: string;
-  imgUrl: string;
-  reverse: boolean;
-};
-
-const DestinationCard = ({ city, description, imgUrl, reverse }: Props) => {
+const DestinationCard: FunctionComponent<IDestinationData> = ({
+  province,
+  description,
+  imgUrl,
+  reverse,
+  destination,
+}) => {
   return (
     <Container reverse={reverse}>
       <Top>
@@ -22,7 +23,7 @@ const DestinationCard = ({ city, description, imgUrl, reverse }: Props) => {
         />
       </Top>
       <Bottom>
-        <City>{city}</City>
+        <Destination>{destination}</Destination>
         <Description>{description}</Description>
       </Bottom>
     </Container>
@@ -59,7 +60,7 @@ const Img = styled(Image)`
 const Bottom = styled.div`
   margin: 1rem 0;
 `;
-const City = styled.h2`
+const Destination = styled.h2`
   color: #eff5f5;
   font-weight: 500;
   font-size: 1.3rem;

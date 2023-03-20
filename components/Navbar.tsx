@@ -2,14 +2,30 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, MouseEvent, SetStateAction } from "react";
+import { useEffect, useState, FunctionComponent } from "react";
 import styled from "styled-components";
 import logo from "../public/ontrip-logo.png";
-import { motion } from "framer-motion";
 import NavbarMenu from "./NavbarMenu";
+import { deleteCookie, getCookie, hasCookie } from "cookies-next";
+import { usePathname, useRouter } from "next/navigation";
 
-const Navbar = () => {
+export interface INavbar {}
+
+const Navbar: FunctionComponent<INavbar> = () => {
   const [click, setClick] = useState<boolean>(false);
+  const [login, setLogin] = useState<boolean>(true);
+
+  const router = useRouter();
+
+  const token = hasCookie("access_token");
+
+  useEffect(() => {
+    if (token) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }, [token]);
 
   const handleClick = () => {
     if (click) {
@@ -39,6 +55,30 @@ const Navbar = () => {
           <Links>
             <NavLink href="/about">About Us</NavLink>
           </Links>
+          {login ? (
+            <Links>
+              <AuthButton
+                href="/login"
+                onClick={() => {
+                  deleteCookie("access_token");
+                  router.push("/login");
+                  setLogin(false);
+                }}
+              >
+                Logout
+              </AuthButton>
+            </Links>
+          ) : (
+            <>
+              <Links>
+                <AuthButton href="/login">Login</AuthButton>
+              </Links>
+
+              <Links>
+                <AuthButton href="/register">Sign Up</AuthButton>
+              </Links>
+            </>
+          )}
         </LinksWrapper>
       </Wrapper>
       <MenuWrapper onClick={handleClick}>
@@ -95,7 +135,7 @@ const LinksWrapper = styled.ul`
   }
 `;
 const NavLink = styled(Link)`
-  color: #222;
+  color: #000;
   font-weight: bold;
   transition: all 0.4s ease-in-out;
 `;
@@ -104,6 +144,20 @@ const Links = styled.li`
   &:hover ${NavLink} {
     color: #f57f5b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const AuthButton = styled(Link)`
+  color: #000;
+  font-weight: bold;
+  transition: all 0.4s ease-in-out;
+  padding: 0.3rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #f57f6b;
+
+  &:hover {
+    color: #000;
+    background-color: #f57f6b;
   }
 `;
 
@@ -199,7 +253,7 @@ const MenuWrapper = styled.div`
     width: 30px;
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     display: none;
   }
 `;

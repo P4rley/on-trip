@@ -1,12 +1,13 @@
 import Link from "next/link";
+import { FunctionComponent } from "react";
 import styled from "styled-components";
 
-type Props = {
+export interface INavbarMenu {
   click: boolean;
   setClick: (val: boolean) => void;
-};
+}
 
-const NavbarMenu = ({ click, setClick }: Props) => {
+const NavbarMenu: FunctionComponent<INavbarMenu> = ({ click, setClick }) => {
   return (
     <Container click={click}>
       <Wrapper>

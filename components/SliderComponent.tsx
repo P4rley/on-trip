@@ -2,6 +2,7 @@
 
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import { FunctionComponent } from "react";
 import styled from "styled-components";
 
 type Destination = {
@@ -17,11 +18,11 @@ type Data = {
   countryDestination: Destination[];
 };
 
-type Props = {
+export interface ISliderComponnet {
   data: Data;
-};
+}
 
-const SliderComponent = ({ data }: Props) => {
+const SliderComponent: FunctionComponent<ISliderComponnet> = ({ data }) => {
   return (
     <Slider>
       <div>

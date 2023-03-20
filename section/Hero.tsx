@@ -3,24 +3,63 @@
 import Image from "next/image";
 import styled from "styled-components";
 import { FaSearchLocation, FaCalendarAlt, FaChevronDown } from "react-icons/fa";
-import { IoMdPeople } from "react-icons/io";
-import { ChangeEvent, useState } from "react";
+import { IoMdPeople, IoMdClose } from "react-icons/io";
+import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Link from "next/link";
+import axios from "axios";
 
-const Hero = () => {
+export interface IHero {}
+export interface ICountry {
+  id: number;
+  name: string;
+  iso2: string;
+}
+
+const Hero: FunctionComponent<IHero> = () => {
   const [showDate, setShowDate] = useState(false);
   const [showPeople, setShowPeople] = useState(false);
+  const [showLocation, setShowLocation] = useState(false);
   const [date, setDate] = useState({
     startDate: new Date().toISOString().slice(0, 10),
     endDate: new Date().toISOString().slice(0, 10),
   });
+  const [country, setCountry] = useState<ICountry[]>([]);
   const [people, setPeople] = useState("");
   const [index, setIndex] = useState(0);
 
+  useEffect(() => {
+    getCountry();
+  }, []);
+
+  const getCountry = async () => {
+    try {
+      const { data } = await axios({
+        method: "get",
+        url: "https://api.countrystatecity.in/v1/countries",
+        headers: {
+          "X-CSCAPI-KEY":
+            "NHE3WVhOc3ZSWkI1QUNaaGN6eUZ2QjdRVWJwTmQ2N2ZDY0xpUVdObA==",
+        },
+      });
+
+      setCountry(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
     setDate({ ...date, [e.target.name]: e.target.value });
+  };
+
+  const handleShowLocation = () => {
+    if (showLocation) {
+      setShowLocation(false);
+    } else {
+      setShowLocation(true);
+    }
   };
 
   const handleShowDate = () => {
@@ -78,19 +117,67 @@ const Hero = () => {
             <Heading>
               <FaSearchLocation style={{ color: "#eff5f5", fontSize: 20 }} />
               <Text>Location</Text>
-              <DownIcon style={{ color: "#eff5f5", fontSize: 20 }} />
+              {showLocation ? (
+                <CloseIcon
+                  style={{ color: "#eff5f5", fontSize: 20 }}
+                  onClick={handleShowLocation}
+                />
+              ) : (
+                <DownIcon
+                  style={{ color: "#eff5f5", fontSize: 20 }}
+                  onClick={handleShowLocation}
+                />
+              )}
             </Heading>
             <Desc>Find your destination</Desc>
+
+            {showLocation && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+              >
+                <Label>
+                  Country
+                  <select
+                    name=""
+                    id=""
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      margin: "10px 0 10px",
+                      color: "#eceff1",
+                      outline: "none",
+                    }}
+                  >
+                    {country.map((el, i) => {
+                      return (
+                        <option value={el?.iso2} key={el?.id}>
+                          {el?.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </Label>
+              </motion.div>
+            )}
           </Box>
 
           <Box>
             <Heading>
               <FaCalendarAlt style={{ color: "#eff5f5", fontSize: 20 }} />
               <Text>Date</Text>
-              <DownIcon
-                style={{ color: "#eff5f5", fontSize: 20 }}
-                onClick={handleShowDate}
-              />
+              {showDate ? (
+                <CloseIcon
+                  style={{ color: "#eff5f5", fontSize: 20 }}
+                  onClick={handleShowDate}
+                />
+              ) : (
+                <DownIcon
+                  style={{ color: "#eff5f5", fontSize: 20 }}
+                  onClick={handleShowDate}
+                />
+              )}
             </Heading>
 
             <Desc>When it will start?</Desc>
@@ -131,10 +218,17 @@ const Hero = () => {
             <Heading>
               <IoMdPeople style={{ color: "#eff5f5", fontSize: 20 }} />
               <Text>People</Text>
-              <DownIcon
-                style={{ color: "#eff5f5", fontSize: 20 }}
-                onClick={handleShowPeople}
-              />
+              {showPeople ? (
+                <CloseIcon
+                  style={{ color: "#eff5f5", fontSize: 20 }}
+                  onClick={handleShowPeople}
+                />
+              ) : (
+                <DownIcon
+                  style={{ color: "#eff5f5", fontSize: 20 }}
+                  onClick={handleShowPeople}
+                />
+              )}
             </Heading>
             <Desc>How many people?</Desc>
 
@@ -302,6 +396,10 @@ const Input = styled(motion.input)`
 const DownIcon = styled(FaChevronDown)`
   transition: all 0.4s ease-in-out;
 `;
+
+const CloseIcon = styled(IoMdClose)`
+  transition: all 0.4s ease-in-out;
+`;
 const DateWrapper = styled(motion.div)``;
 const Label = styled(motion.label)`
   font-size: 0.75rem;
@@ -313,6 +411,9 @@ const Label = styled(motion.label)`
   border: 1px solid #eceff1;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 170px;
 `;
 const BodyWrapper = styled.div`
   position: relative;

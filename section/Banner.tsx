@@ -1,8 +1,11 @@
 "use client";
 
+import { FunctionComponent } from "react";
 import styled from "styled-components";
 
-const Banner = () => {
+export interface IBanner {}
+
+const Banner: FunctionComponent<IBanner> = () => {
   return (
     <Container>
       <Wrapper>

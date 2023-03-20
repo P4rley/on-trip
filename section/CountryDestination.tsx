@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -13,7 +13,7 @@ const data = [
     countryImg: "",
     countryDestination: [
       {
-        province: "Indonesia",
+        province: "Bali",
         destination: "Cappadocia",
         description:
           "Cappadocia is famous for its stretches of soft volcanic rock formed by erosion from volcanoes over millions of years. The rock takes on a variety of unique shapes such as towers, cones, valleys and caves.",
@@ -29,7 +29,7 @@ const data = [
         reverse: true,
       },
       {
-        province: "Indonesia",
+        province: "Jakarta",
         destination: "Cape Town Central",
         description:
           "Tourist brochure-views at Blaauwberg Beach and Kirstenbosch National Botanical Gardens are within easy driving distance of 'The Mother City.' The Cape of Good Hope Nature Reserve provides sweeping sea vistas, hiking trails and wildlife encounters.",
@@ -70,7 +70,9 @@ const data = [
   },
 ];
 
-const CountryDesctination = () => {
+export interface ICountryDestination {}
+
+const CountryDestination: FunctionComponent<ICountryDestination> = () => {
   const [index, setIndex] = useState(0);
 
   const handleArrow = (direction: string) => {
@@ -103,7 +105,7 @@ const CountryDesctination = () => {
     </Container>
   );
 };
-export default CountryDesctination;
+export default CountryDestination;
 
 const Container = styled.section`
   width: 100%;
